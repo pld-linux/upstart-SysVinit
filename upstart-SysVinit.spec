@@ -62,8 +62,8 @@ Requires:	logrotate
 %{?with_selinux:Requires:	libselinux >= 1.18}
 Requires:	mingetty
 Requires:	upstart
-Provides:	group(utmp)
 Provides:	SysVinit = %{version}-%{release}
+Provides:	group(utmp)
 Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -154,8 +154,8 @@ install -d $RPM_BUILD_ROOT{/bin,%{_bindir},%{_sbindir},%{_mandir}/man{1,5,8}} \
 
 %{__make} install -C src \
 	ROOT=$RPM_BUILD_ROOT \
-	BIN_OWNER=`id -u` \
-	BIN_GROUP=`id -g`
+	BIN_OWNER=$(id -u) \
+	BIN_GROUP=$(id -g)
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/sysvinit
 
@@ -181,23 +181,23 @@ rm -f $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,te
 rm -f $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,runlevel,shutdown}.8*
 
 # provide default copatibility events
-install %SOURCE3 $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete
-install %SOURCE4 $RPM_BUILD_ROOT%{_eventdir}/rc-default
-install %SOURCE5 $RPM_BUILD_ROOT%{_eventdir}/rc0
-install %SOURCE6 $RPM_BUILD_ROOT%{_eventdir}/rc1
-install %SOURCE7 $RPM_BUILD_ROOT%{_eventdir}/rc2
-install %SOURCE8 $RPM_BUILD_ROOT%{_eventdir}/rc3
-install %SOURCE9 $RPM_BUILD_ROOT%{_eventdir}/rc4
-install %SOURCE10 $RPM_BUILD_ROOT%{_eventdir}/rc5
-install %SOURCE11 $RPM_BUILD_ROOT%{_eventdir}/rc6
-install %SOURCE12 $RPM_BUILD_ROOT%{_eventdir}/rcS
-install %SOURCE13 $RPM_BUILD_ROOT%{_eventdir}/sulogin
-install %SOURCE14 $RPM_BUILD_ROOT%{_eventdir}/tty1
-install %SOURCE15 $RPM_BUILD_ROOT%{_eventdir}/tty2
-install %SOURCE16 $RPM_BUILD_ROOT%{_eventdir}/tty3
-install %SOURCE17 $RPM_BUILD_ROOT%{_eventdir}/tty4
-install %SOURCE18 $RPM_BUILD_ROOT%{_eventdir}/tty5
-install %SOURCE19 $RPM_BUILD_ROOT%{_eventdir}/tty6
+install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete
+install %{SOURCE4} $RPM_BUILD_ROOT%{_eventdir}/rc-default
+install %{SOURCE5} $RPM_BUILD_ROOT%{_eventdir}/rc0
+install %{SOURCE6} $RPM_BUILD_ROOT%{_eventdir}/rc1
+install %{SOURCE7} $RPM_BUILD_ROOT%{_eventdir}/rc2
+install %{SOURCE8} $RPM_BUILD_ROOT%{_eventdir}/rc3
+install %{SOURCE9} $RPM_BUILD_ROOT%{_eventdir}/rc4
+install %{SOURCE10} $RPM_BUILD_ROOT%{_eventdir}/rc5
+install %{SOURCE11} $RPM_BUILD_ROOT%{_eventdir}/rc6
+install %{SOURCE12} $RPM_BUILD_ROOT%{_eventdir}/rcS
+install %{SOURCE13} $RPM_BUILD_ROOT%{_eventdir}/sulogin
+install %{SOURCE14} $RPM_BUILD_ROOT%{_eventdir}/tty1
+install %{SOURCE15} $RPM_BUILD_ROOT%{_eventdir}/tty2
+install %{SOURCE16} $RPM_BUILD_ROOT%{_eventdir}/tty3
+install %{SOURCE17} $RPM_BUILD_ROOT%{_eventdir}/tty4
+install %{SOURCE18} $RPM_BUILD_ROOT%{_eventdir}/tty5
+install %{SOURCE19} $RPM_BUILD_ROOT%{_eventdir}/tty6
 
 %clean
 rm -rf $RPM_BUILD_ROOT
