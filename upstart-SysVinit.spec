@@ -47,6 +47,7 @@ Patch12:	sysvinit-lastlog.patch
 Patch13:	sysvinit-alt-fixes.patch
 %if %{with selinux}
 BuildRequires:	libselinux-devel >= 1.28
+BuildRequires:	libsepol-devel
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.202
 Requires(post):	fileutils
