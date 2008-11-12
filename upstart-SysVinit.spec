@@ -7,7 +7,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	12
+Release:	13
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -68,7 +68,7 @@ Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_eventdir	/etc/upstart/event.d
+%define		_eventdir	/etc/init/jobs.d
 %define		_sbindir	/sbin
 # as in original flags
 %define		specflags	-fomit-frame-pointer
@@ -178,7 +178,7 @@ cp -a man/intl/* $RPM_BUILD_ROOT%{_mandir}
 
 # remove binaries replaced by upstart
 rm -f $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telinit}
-rm -f $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,runlevel,shutdown}.8*
+rm -f $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 
 # provide default copatibility events
 install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete
