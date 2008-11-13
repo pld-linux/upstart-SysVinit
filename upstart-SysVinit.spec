@@ -7,14 +7,12 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	13
+Release:	14
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
 # Source0-md5:	7d5d61c026122ab791ac04c8a84db967
 Source1:	sysvinit.logrotate
-Source2:	http://www.mif.pg.gda.pl/homepages/ankry/man-PLD/sysvinit-non-english-man-pages.tar.bz2
-# Source2-md5:	9ae8a63a4685368fae19707f95475cca
 Source3:	%{name}-control-alt-delete.event
 Source4:	%{name}-rc-default.event
 Source5:	%{name}-rc0.event
@@ -170,15 +168,11 @@ ln -sf killall5 $RPM_BUILD_ROOT%{_sbindir}/pidof
 > $RPM_BUILD_ROOT/var/log/btmpx
 
 echo .so last.1 > $RPM_BUILD_ROOT%{_mandir}/man1/lastb.1
-bzip2 -dc %{SOURCE2} | tar xf - -C $RPM_BUILD_ROOT%{_mandir}
-rm -f $RPM_BUILD_ROOT%{_includedir}/initreq.h
-rm -f $RPM_BUILD_ROOT%{_mandir}/README.sysvinit-non-english-man-pages
-
-cp -a man/intl/* $RPM_BUILD_ROOT%{_mandir}
+rm $RPM_BUILD_ROOT%{_includedir}/initreq.h
 
 # remove binaries replaced by upstart
-rm -f $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telinit}
-rm -f $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
+rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telinit}
+rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 
 # provide default copatibility events
 install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete
@@ -244,19 +238,6 @@ fi
 %attr(640,root,root) %ghost /var/log/btmpx
 
 %{_mandir}/man[158]/*
-%lang(cs) %{_mandir}/cs/man[158]/*
-%lang(de) %{_mandir}/de/man[158]/*
-%lang(es) %{_mandir}/es/man[158]/*
-%lang(fi) %{_mandir}/fi/man[158]/*
-%lang(fr) %{_mandir}/fr/man[158]/*
-%lang(hu) %{_mandir}/hu/man[158]/*
-%lang(id) %{_mandir}/id/man[158]/*
-%lang(it) %{_mandir}/it/man[158]/*
-%lang(ja) %{_mandir}/ja/man[158]/*
-%lang(ko) %{_mandir}/ko/man[158]/*
-%lang(pl) %{_mandir}/pl/man[158]/*
-%lang(ru) %{_mandir}/ru/man[158]/*
-%lang(sv) %{_mandir}/sv/man[158]/*
 
 # devel?
 #%{_includedir}/initreq.h
