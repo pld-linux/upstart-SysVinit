@@ -7,7 +7,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	14
+Release:	15
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -53,6 +53,8 @@ Requires(postun):	/usr/sbin/groupdel
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires:	/bin/awk
+# due to mingetty complaining: tty1: no controlling tty
+Requires:	/usr/bin/openvt
 Requires:	login
 %if %{with preconfigured}
 Requires:	logrotate
