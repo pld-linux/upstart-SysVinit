@@ -13,4 +13,5 @@ stop on runlevel 1
 stop on runlevel 6
 
 respawn
-exec /usr/bin/openvt -c 3 -w /sbin/mingetty tty3
+exec /sbin/mingetty tty3
+session leader
