@@ -11,6 +11,8 @@ script
 
 	if grep -q -w -- "-s\|single\|S" /proc/cmdline; then
 	    telinit S
+	elif grep -q -w -- "noX" /proc/cmdline; then
+	    telinit 3
 	elif [ -r /etc/inittab ]; then
 	    RL="$(sed -n -e "/^id:[0-9]*:initdefault:/{s/^id://;s/:.*//;p}" /etc/inittab || true)"
 	    if [ -n "$RL" ]; then
