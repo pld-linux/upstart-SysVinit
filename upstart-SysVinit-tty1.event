@@ -13,4 +13,4 @@ stop on runlevel 1
 stop on runlevel 6
 
 respawn
-exec /usr/bin/openvt -c 1 -w /sbin/mingetty --noclear tty1
+exec /usr/bin/openvt -c 1 -w -f -- /sbin/mingetty --noclear tty1
