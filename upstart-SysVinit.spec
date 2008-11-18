@@ -7,7 +7,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	19
+Release:	20
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -218,7 +218,7 @@ fi
 %defattr(644,root,root,755)
 %doc doc/{Propaganda,Changelog,*.lsm}
 
-%{_eventdir}/*
+%config(noreplace) %verify(not md5 mtime size) %{_eventdir}/*
 
 %attr(755,root,root) /bin/mountpoint
 %attr(755,root,root) %{_sbindir}/*
