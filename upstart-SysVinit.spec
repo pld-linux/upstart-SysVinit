@@ -53,12 +53,14 @@ Requires(postun):	/usr/sbin/groupdel
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires:	/bin/awk
+Requires:	grep
 Requires:	login
 %if %{with preconfigured}
 Requires:	logrotate
 %endif
 %{?with_selinux:Requires:	libselinux >= 1.18}
 Requires:	mingetty
+Requires:	sed
 Requires:	upstart
 Provides:	SysVinit = %{version}-%{release}
 Provides:	group(utmp)
