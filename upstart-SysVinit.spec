@@ -1,13 +1,12 @@
 #
 # Conditional build:
-%bcond_with	preconfigured
 %bcond_without	selinux		# build without SELinux support
 #
 Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	20
+Release:	21
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -55,9 +54,6 @@ Requires(pre):	/usr/sbin/groupadd
 Requires:	/bin/awk
 Requires:	grep
 Requires:	login
-%if %{with preconfigured}
-Requires:	logrotate
-%endif
 %{?with_selinux:Requires:	libselinux >= 1.18}
 Requires:	mingetty
 Requires:	sed
