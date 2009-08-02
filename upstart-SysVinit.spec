@@ -6,7 +6,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	21
+Release:	22
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -57,14 +57,14 @@ Requires:	login
 %{?with_selinux:Requires:	libselinux >= 1.18}
 Requires:	mingetty
 Requires:	sed
-Requires:	upstart
+Requires:	upstart >= 0.6
 Provides:	SysVinit = %{version}-%{release}
 Provides:	group(utmp)
 Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_eventdir	/etc/init/jobs.d
+%define		_eventdir	/etc/init
 %define		_sbindir	/sbin
 # as in original flags
 %define		specflags	-fomit-frame-pointer
@@ -173,23 +173,23 @@ rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telin
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 
 # provide default copatibility events
-install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete
-install %{SOURCE4} $RPM_BUILD_ROOT%{_eventdir}/rc-default
-install %{SOURCE5} $RPM_BUILD_ROOT%{_eventdir}/rc0
-install %{SOURCE6} $RPM_BUILD_ROOT%{_eventdir}/rc1
-install %{SOURCE7} $RPM_BUILD_ROOT%{_eventdir}/rc2
-install %{SOURCE8} $RPM_BUILD_ROOT%{_eventdir}/rc3
-install %{SOURCE9} $RPM_BUILD_ROOT%{_eventdir}/rc4
-install %{SOURCE10} $RPM_BUILD_ROOT%{_eventdir}/rc5
-install %{SOURCE11} $RPM_BUILD_ROOT%{_eventdir}/rc6
-install %{SOURCE12} $RPM_BUILD_ROOT%{_eventdir}/rcS
-install %{SOURCE13} $RPM_BUILD_ROOT%{_eventdir}/sulogin
-install %{SOURCE14} $RPM_BUILD_ROOT%{_eventdir}/tty1
-install %{SOURCE15} $RPM_BUILD_ROOT%{_eventdir}/tty2
-install %{SOURCE16} $RPM_BUILD_ROOT%{_eventdir}/tty3
-install %{SOURCE17} $RPM_BUILD_ROOT%{_eventdir}/tty4
-install %{SOURCE18} $RPM_BUILD_ROOT%{_eventdir}/tty5
-install %{SOURCE19} $RPM_BUILD_ROOT%{_eventdir}/tty6
+install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete.conf
+install %{SOURCE4} $RPM_BUILD_ROOT%{_eventdir}/rc-default.conf
+install %{SOURCE5} $RPM_BUILD_ROOT%{_eventdir}/rc0.conf
+install %{SOURCE6} $RPM_BUILD_ROOT%{_eventdir}/rc1.conf
+install %{SOURCE7} $RPM_BUILD_ROOT%{_eventdir}/rc2.conf
+install %{SOURCE8} $RPM_BUILD_ROOT%{_eventdir}/rc3.conf
+install %{SOURCE9} $RPM_BUILD_ROOT%{_eventdir}/rc4.conf
+install %{SOURCE10} $RPM_BUILD_ROOT%{_eventdir}/rc5.conf
+install %{SOURCE11} $RPM_BUILD_ROOT%{_eventdir}/rc6.conf
+install %{SOURCE12} $RPM_BUILD_ROOT%{_eventdir}/rcS.conf
+install %{SOURCE13} $RPM_BUILD_ROOT%{_eventdir}/sulogin.conf
+install %{SOURCE14} $RPM_BUILD_ROOT%{_eventdir}/tty1.conf
+install %{SOURCE15} $RPM_BUILD_ROOT%{_eventdir}/tty2.conf
+install %{SOURCE16} $RPM_BUILD_ROOT%{_eventdir}/tty3.conf
+install %{SOURCE17} $RPM_BUILD_ROOT%{_eventdir}/tty4.conf
+install %{SOURCE18} $RPM_BUILD_ROOT%{_eventdir}/tty5.conf
+install %{SOURCE19} $RPM_BUILD_ROOT%{_eventdir}/tty6.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
