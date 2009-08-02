@@ -8,4 +8,3 @@ stop on runlevel 0 or runlevel 1 or runlevel 6
 
 respawn
 exec /sbin/mingetty tty4
-session leader
