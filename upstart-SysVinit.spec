@@ -12,8 +12,6 @@ Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
 # Source0-md5:	7d5d61c026122ab791ac04c8a84db967
 Source1:	sysvinit.logrotate
-Source3:	%{name}-control-alt-delete.event
-Source4:	%{name}-rc-default.event
 Source5:	%{name}-rc0.event
 Source6:	%{name}-rc1.event
 Source7:	%{name}-rc2.event
@@ -21,7 +19,6 @@ Source8:	%{name}-rc3.event
 Source9:	%{name}-rc4.event
 Source10:	%{name}-rc5.event
 Source11:	%{name}-rc6.event
-Source12:	%{name}-rcS.event
 Source13:	%{name}-sulogin.event
 Source14:	%{name}-tty1.event
 Source15:	%{name}-tty2.event
@@ -173,8 +170,6 @@ rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telin
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 
 # provide default copatibility events
-install %{SOURCE3} $RPM_BUILD_ROOT%{_eventdir}/control-alt-delete.conf
-install %{SOURCE4} $RPM_BUILD_ROOT%{_eventdir}/rc-default.conf
 install %{SOURCE5} $RPM_BUILD_ROOT%{_eventdir}/rc0.conf
 install %{SOURCE6} $RPM_BUILD_ROOT%{_eventdir}/rc1.conf
 install %{SOURCE7} $RPM_BUILD_ROOT%{_eventdir}/rc2.conf
@@ -182,7 +177,6 @@ install %{SOURCE8} $RPM_BUILD_ROOT%{_eventdir}/rc3.conf
 install %{SOURCE9} $RPM_BUILD_ROOT%{_eventdir}/rc4.conf
 install %{SOURCE10} $RPM_BUILD_ROOT%{_eventdir}/rc5.conf
 install %{SOURCE11} $RPM_BUILD_ROOT%{_eventdir}/rc6.conf
-install %{SOURCE12} $RPM_BUILD_ROOT%{_eventdir}/rcS.conf
 install %{SOURCE13} $RPM_BUILD_ROOT%{_eventdir}/sulogin.conf
 install %{SOURCE14} $RPM_BUILD_ROOT%{_eventdir}/tty1.conf
 install %{SOURCE15} $RPM_BUILD_ROOT%{_eventdir}/tty2.conf
