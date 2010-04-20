@@ -6,7 +6,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	22
+Release:	23
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -61,7 +61,7 @@ Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_eventdir	/etc/init
+%define		eventdir	/etc/init
 %define		_sbindir	/sbin
 # as in original flags
 %define		specflags	-fomit-frame-pointer
@@ -143,14 +143,14 @@ sonlanmalarını sağlar/denetler.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/bin,%{_bindir},%{_sbindir},%{_mandir}/man{1,5,8}} \
 	$RPM_BUILD_ROOT{%{_includedir},%{_sysconfdir},/etc/logrotate.d,/var/{log,run}} \
-	$RPM_BUILD_ROOT%{_eventdir}
+	$RPM_BUILD_ROOT%{eventdir}
 
 %{__make} install -C src \
 	ROOT=$RPM_BUILD_ROOT \
 	BIN_OWNER=$(id -u) \
 	BIN_GROUP=$(id -g)
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/sysvinit
+cp -a %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/sysvinit
 
 ln -sf ../var/run/initrunlvl $RPM_BUILD_ROOT%{_sysconfdir}
 ln -sf killall5 $RPM_BUILD_ROOT%{_sbindir}/pidof
@@ -168,22 +168,23 @@ rm $RPM_BUILD_ROOT%{_includedir}/initreq.h
 # remove binaries replaced by upstart
 rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telinit}
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
+rm $RPM_BUILD_ROOT%{_mandir}/*man5/inittab.5*
 
 # provide default copatibility events
-install %{SOURCE5} $RPM_BUILD_ROOT%{_eventdir}/rc0.conf
-install %{SOURCE6} $RPM_BUILD_ROOT%{_eventdir}/rc1.conf
-install %{SOURCE7} $RPM_BUILD_ROOT%{_eventdir}/rc2.conf
-install %{SOURCE8} $RPM_BUILD_ROOT%{_eventdir}/rc3.conf
-install %{SOURCE9} $RPM_BUILD_ROOT%{_eventdir}/rc4.conf
-install %{SOURCE10} $RPM_BUILD_ROOT%{_eventdir}/rc5.conf
-install %{SOURCE11} $RPM_BUILD_ROOT%{_eventdir}/rc6.conf
-install %{SOURCE13} $RPM_BUILD_ROOT%{_eventdir}/sulogin.conf
-install %{SOURCE14} $RPM_BUILD_ROOT%{_eventdir}/tty1.conf
-install %{SOURCE15} $RPM_BUILD_ROOT%{_eventdir}/tty2.conf
-install %{SOURCE16} $RPM_BUILD_ROOT%{_eventdir}/tty3.conf
-install %{SOURCE17} $RPM_BUILD_ROOT%{_eventdir}/tty4.conf
-install %{SOURCE18} $RPM_BUILD_ROOT%{_eventdir}/tty5.conf
-install %{SOURCE19} $RPM_BUILD_ROOT%{_eventdir}/tty6.conf
+cp -a %{SOURCE5} $RPM_BUILD_ROOT%{eventdir}/rc0.conf
+cp -a %{SOURCE6} $RPM_BUILD_ROOT%{eventdir}/rc1.conf
+cp -a %{SOURCE7} $RPM_BUILD_ROOT%{eventdir}/rc2.conf
+cp -a %{SOURCE8} $RPM_BUILD_ROOT%{eventdir}/rc3.conf
+cp -a %{SOURCE9} $RPM_BUILD_ROOT%{eventdir}/rc4.conf
+cp -a %{SOURCE10} $RPM_BUILD_ROOT%{eventdir}/rc5.conf
+cp -a %{SOURCE11} $RPM_BUILD_ROOT%{eventdir}/rc6.conf
+cp -a %{SOURCE13} $RPM_BUILD_ROOT%{eventdir}/sulogin.conf
+cp -a %{SOURCE14} $RPM_BUILD_ROOT%{eventdir}/tty1.conf
+cp -a %{SOURCE15} $RPM_BUILD_ROOT%{eventdir}/tty2.conf
+cp -a %{SOURCE16} $RPM_BUILD_ROOT%{eventdir}/tty3.conf
+cp -a %{SOURCE17} $RPM_BUILD_ROOT%{eventdir}/tty4.conf
+cp -a %{SOURCE18} $RPM_BUILD_ROOT%{eventdir}/tty5.conf
+cp -a %{SOURCE19} $RPM_BUILD_ROOT%{eventdir}/tty6.conf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -209,9 +210,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/{Propaganda,Changelog,*.lsm}
-
-%config(noreplace) %verify(not md5 mtime size) %{_eventdir}/*
-
+%config(noreplace) %verify(not md5 mtime size) %{eventdir}/*.conf
 %attr(755,root,root) /bin/mountpoint
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/last
