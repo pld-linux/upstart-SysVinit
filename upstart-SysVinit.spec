@@ -6,26 +6,15 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	23
+Release:	23.2
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
 # Source0-md5:	7d5d61c026122ab791ac04c8a84db967
 Source1:	sysvinit.logrotate
-Source5:	%{name}-rc0.event
-Source6:	%{name}-rc1.event
-Source7:	%{name}-rc2.event
-Source8:	%{name}-rc3.event
-Source9:	%{name}-rc4.event
-Source10:	%{name}-rc5.event
-Source11:	%{name}-rc6.event
-Source13:	%{name}-sulogin.event
-Source14:	%{name}-tty1.event
-Source15:	%{name}-tty2.event
-Source16:	%{name}-tty3.event
-Source17:	%{name}-tty4.event
-Source18:	%{name}-tty5.event
-Source19:	%{name}-tty6.event
+Source2:	rc.conf
+Source3:	rcS.conf
+Source4:	rcS-sulogin.conf
 Patch0:		sysvinit-paths.patch
 Patch1:		sysvinit-bequiet.patch
 Patch2:		sysvinit-md5-bigendian.patch
@@ -50,8 +39,8 @@ Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires:	/bin/awk
 Requires:	grep
-Requires:	login
 %{?with_selinux:Requires:	libselinux >= 1.18}
+Requires:	login
 Requires:	mingetty
 Requires:	sed
 Requires:	upstart >= 0.6
@@ -170,21 +159,10 @@ rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telin
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 rm $RPM_BUILD_ROOT%{_mandir}/*man5/inittab.5*
 
-# provide default copatibility events
-cp -a %{SOURCE5} $RPM_BUILD_ROOT%{eventdir}/rc0.conf
-cp -a %{SOURCE6} $RPM_BUILD_ROOT%{eventdir}/rc1.conf
-cp -a %{SOURCE7} $RPM_BUILD_ROOT%{eventdir}/rc2.conf
-cp -a %{SOURCE8} $RPM_BUILD_ROOT%{eventdir}/rc3.conf
-cp -a %{SOURCE9} $RPM_BUILD_ROOT%{eventdir}/rc4.conf
-cp -a %{SOURCE10} $RPM_BUILD_ROOT%{eventdir}/rc5.conf
-cp -a %{SOURCE11} $RPM_BUILD_ROOT%{eventdir}/rc6.conf
-cp -a %{SOURCE13} $RPM_BUILD_ROOT%{eventdir}/sulogin.conf
-cp -a %{SOURCE14} $RPM_BUILD_ROOT%{eventdir}/tty1.conf
-cp -a %{SOURCE15} $RPM_BUILD_ROOT%{eventdir}/tty2.conf
-cp -a %{SOURCE16} $RPM_BUILD_ROOT%{eventdir}/tty3.conf
-cp -a %{SOURCE17} $RPM_BUILD_ROOT%{eventdir}/tty4.conf
-cp -a %{SOURCE18} $RPM_BUILD_ROOT%{eventdir}/tty5.conf
-cp -a %{SOURCE19} $RPM_BUILD_ROOT%{eventdir}/tty6.conf
+# provide default compatibility events
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{eventdir}
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{eventdir}
+cp -a %{SOURCE4} $RPM_BUILD_ROOT%{eventdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -210,7 +188,9 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/{Propaganda,Changelog,*.lsm}
-%config(noreplace) %verify(not md5 mtime size) %{eventdir}/*.conf
+%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rc.conf
+%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rcS.conf
+%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rcS-sulogin.conf
 %attr(755,root,root) /bin/mountpoint
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/last
