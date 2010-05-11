@@ -12,9 +12,6 @@ Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
 # Source0-md5:	7d5d61c026122ab791ac04c8a84db967
 Source1:	sysvinit.logrotate
-Source2:	rc.conf
-Source3:	rcS.conf
-Source4:	rcS-sulogin.conf
 Patch0:		sysvinit-paths.patch
 Patch1:		sysvinit-bequiet.patch
 Patch2:		sysvinit-md5-bigendian.patch
@@ -48,6 +45,7 @@ Provides:	SysVinit = %{version}-%{release}
 Provides:	group(utmp)
 Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
+Conflicts:	rc-scripts < 0.4.3.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		eventdir	/etc/init
@@ -159,11 +157,6 @@ rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telin
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 rm $RPM_BUILD_ROOT%{_mandir}/*man5/inittab.5*
 
-# provide default compatibility events
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{eventdir}
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{eventdir}
-cp -a %{SOURCE4} $RPM_BUILD_ROOT%{eventdir}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -188,9 +181,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/{Propaganda,Changelog,*.lsm}
-%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rc.conf
-%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rcS.conf
-%config(noreplace) %verify(not md5 mtime size) %{eventdir}/rcS-sulogin.conf
 %attr(755,root,root) /bin/mountpoint
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/last
