@@ -6,7 +6,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	26
+Release:	27
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -25,6 +25,7 @@ Patch10:	sysvinit-selinux.patch
 Patch11:	sysvinit-nopowerstates-single.patch
 Patch12:	sysvinit-lastlog.patch
 Patch13:	sysvinit-alt-fixes.patch
+Patch14:	sysvinit-killall5_no_kill_init.patch
 %if %{with selinux}
 BuildRequires:	libselinux-devel >= 1.28
 BuildRequires:	libsepol-devel
@@ -118,6 +119,7 @@ sonlanmalarını sağlar/denetler.
 %patch11 -p1
 %patch12 -p1
 %patch13 -p1
+%patch14 -p1
 
 %build
 %{__make} -C src \
