@@ -6,7 +6,7 @@ Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
 Version:	2.86
-Release:	27
+Release:	28
 License:	GPL
 Group:		Base
 Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
@@ -31,7 +31,6 @@ BuildRequires:	libselinux-devel >= 1.28
 BuildRequires:	libsepol-devel
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.202
-Requires(post):	fileutils
 Requires(postun):	/usr/sbin/groupdel
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
@@ -42,6 +41,7 @@ Requires:	login
 Requires:	mingetty
 Requires:	sed
 Requires:	upstart >= 0.6
+Requires:	util-linux >= 2.20-5
 Provides:	SysVinit = %{version}-%{release}
 Provides:	group(utmp)
 Obsoletes:	SysVinit
@@ -158,6 +158,8 @@ rm $RPM_BUILD_ROOT%{_includedir}/initreq.h
 rm $RPM_BUILD_ROOT%{_sbindir}/{halt,init,poweroff,reboot,runlevel,shutdown,telinit}
 rm $RPM_BUILD_ROOT%{_mandir}/*man8/{init,poweroff,reboot,runlevel,shutdown,telinit}.8*
 rm $RPM_BUILD_ROOT%{_mandir}/*man5/inittab.5*
+# in util-linux
+rm $RPM_BUILD_ROOT{/bin/mountpoint,%{_mandir}/man1/mountpoint.1*}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -183,7 +185,6 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc doc/{Propaganda,Changelog,*.lsm}
-%attr(755,root,root) /bin/mountpoint
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/last
 %attr(755,root,root) %{_bindir}/lastb
