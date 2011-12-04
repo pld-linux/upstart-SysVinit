@@ -5,27 +5,26 @@
 Summary:	System V compatibility for upstart
 Summary(pl.UTF-8):	Wsparcie dla System V w upstart
 Name:		upstart-SysVinit
-Version:	2.86
-Release:	28
+Version:	2.88
+Release:	1
 License:	GPL
 Group:		Base
-Source0:	ftp://ftp.cistron.nl/pub/people/miquels/software/sysvinit-%{version}.tar.gz
-# Source0-md5:	7d5d61c026122ab791ac04c8a84db967
+Source0:	http://download.savannah.gnu.org/releases/sysvinit/sysvinit-%{version}dsf.tar.bz2
+# Source0-md5:	6eda8a97b86e0a6f59dabbf25202aa6f
 Source1:	sysvinit.logrotate
-Patch0:		sysvinit-paths.patch
-Patch1:		sysvinit-bequiet.patch
-Patch2:		sysvinit-md5-bigendian.patch
-Patch3:		sysvinit-wtmp.patch
-Patch4:		sysvinit-man.patch
-Patch6:		sysvinit-blowfish.patch
-Patch7:		sysvinit-autofsck.patch
-Patch8:		sysvinit-pidof.patch
-Patch9:		sysvinit-killall5.patch
-Patch10:	sysvinit-selinux.patch
-Patch11:	sysvinit-nopowerstates-single.patch
-Patch12:	sysvinit-lastlog.patch
-Patch13:	sysvinit-alt-fixes.patch
-Patch14:	sysvinit-killall5_no_kill_init.patch
+Patch0:         sysvinit-paths.patch
+Patch1:         sysvinit-bequiet.patch
+Patch2:         sysvinit-wtmp.patch
+Patch3:         sysvinit-man.patch
+Patch4:         sysvinit-halt.patch
+Patch5:         sysvinit-autofsck.patch
+Patch6:         sysvinit-pidof.patch
+Patch7:         sysvinit-killall5.patch
+Patch8:         sysvinit-nopowerstates-single.patch
+Patch9:         sysvinit-lastlog.patch
+Patch10:        sysvinit-alt-fixes.patch
+Patch11:        sysvinit-quiet.patch
+Patch12:        sysvinit-rebootconfirmation.patch
 %if %{with selinux}
 BuildRequires:	libselinux-devel >= 1.28
 BuildRequires:	libsepol-devel
@@ -46,7 +45,7 @@ Provides:	SysVinit = %{version}-%{release}
 Provides:	group(utmp)
 Obsoletes:	SysVinit
 Obsoletes:	vserver-SysVinit
-Conflicts:	rc-scripts < 0.4.3.2
+Conflicts:	rc-scripts < 0.4.5.1-6
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		eventdir	/etc/init
@@ -105,27 +104,27 @@ sonlanmalarını sağlar/denetler.
 цього init керує запуском, виконанням та зупинкою всіх інших програм.
 
 %prep
-%setup -q -n sysvinit-%{version}
+%setup -q -n sysvinit-%{version}dsf
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%{?with_selinux:%patch10 -p1}
+%patch10 -p1
 %patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
+%patch12 -p0
 
 %build
 %{__make} -C src \
+	%{?with_selinux:WITH_SELINUX=yes} \
 	CC="%{__cc}" \
 	LCRYPT="-lcrypt" \
-	OPTIMIZE="%{rpmcflags}" \
+	CFLAGS="%{rpmcflags} %{rpmcppflags}" \
 	LDFLAGS="%{rpmldflags}"
 
 %install
@@ -143,6 +142,7 @@ cp -a %{SOURCE1} $RPM_BUILD_ROOT/etc/logrotate.d/sysvinit
 
 ln -sf ../var/run/initrunlvl $RPM_BUILD_ROOT%{_sysconfdir}
 ln -sf killall5 $RPM_BUILD_ROOT%{_sbindir}/pidof
+ln -s utmpdump $RPM_BUILD_ROOT%{_bindir}/utmpx-dump
 
 > $RPM_BUILD_ROOT/var/run/initrunlvl
 > $RPM_BUILD_ROOT%{_sysconfdir}/ioctl.save
@@ -152,6 +152,7 @@ ln -sf killall5 $RPM_BUILD_ROOT%{_sbindir}/pidof
 > $RPM_BUILD_ROOT/var/log/btmpx
 
 echo .so last.1 > $RPM_BUILD_ROOT%{_mandir}/man1/lastb.1
+echo .so utmpdump.1 > $RPM_BUILD_ROOT%{_mandir}/man1/utmpx-dump.1
 rm $RPM_BUILD_ROOT%{_includedir}/initreq.h
 
 # remove binaries replaced by upstart
@@ -189,6 +190,7 @@ fi
 %attr(755,root,root) %{_bindir}/last
 %attr(755,root,root) %{_bindir}/lastb
 %attr(755,root,root) %{_bindir}/mesg
+%attr(755,root,root) %{_bindir}/utmpdump
 %attr(755,root,root) %{_bindir}/utmpx-dump
 %attr(2755,root,tty) %{_bindir}/wall
 
